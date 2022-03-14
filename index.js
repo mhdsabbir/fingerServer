@@ -26,11 +26,17 @@ async function run() {
 
     app.post("/punchs", async (req, res) => {
       const punch = req.body
-      const result = await dataCollection.insertOne(punch)
-      console.log(result);
-      res.json(result)
+      const newPunch = await dataCollection.insertOne(punch)
+      
+      res.json(newPunch)
 
     });
+    app.get('/punchs', async (req, res) =>{
+      const cursor = dataCollection.find({})
+      const punchs = await cursor.toArray()
+      res.json(punchs)
+    })
+
   } finally {
     // await client.close();
   }
